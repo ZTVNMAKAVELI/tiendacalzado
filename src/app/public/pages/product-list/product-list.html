@@ -1,0 +1,35 @@
+<main>
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <!-- Encabezado de la sección -->
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Nuestro Catálogo</h2>
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-500">Calzado con estilo para toda la familia.</p>
+        </div>
+        
+        <!-- Contenedor de la cuadrícula de productos -->
+        <!-- La directiva *ngFor de Angular reemplazará la lógica de JS del ejemplo -->
+        <div id="product-grid" class="grid grid-cols-1 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6">
+            <!-- Usaremos *ngFor para recorrer el array de productos desde el .ts -->
+            <div *ngFor="let product of products" class="group relative bg-white border rounded-lg shadow-sm overflow-hidden product-card transition-all duration-300">
+                <div class="w-full h-56 bg-gray-200 overflow-hidden">
+                    <img [src]="product.imagenUrl" [alt]="product.nombre" class="w-full h-full object-center object-cover group-hover:opacity-75 transition-opacity duration-300">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-sm text-gray-500">
+                        {{ product.categoria }}
+                    </h3>
+                    <p class="text-base font-semibold text-gray-900 mt-1">
+                        {{ product.nombre }}
+                    </p>
+                    <p class="text-lg font-bold text-blue-600 mt-2">
+                         {{ product.precio | currency:'PEN':'S/ ' }} <!-- Usando el pipe de currency de Angular -->
+                    </p>
+                    <button class="mt-4 w-full bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition-colors duration-300 flex items-center justify-center space-x-2">
+                        <i class="ph-shopping-cart-simple text-xl"></i>
+                        <span>Agregar al Carrito</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
