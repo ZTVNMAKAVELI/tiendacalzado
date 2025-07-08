@@ -1,1 +1,47 @@
-<p>product-detail works!</p>
+<div class="bg-white">
+  <!-- Estado de Carga con el nuevo componente -->
+  <div *ngIf="isLoading">
+    <app-loader></app-loader>
+  </div>
+
+  <!-- Estado de Error -->
+  <div *ngIf="error" class="text-center py-32 bg-red-50 text-red-700 p-6 rounded-lg max-w-2xl mx-auto">
+    <p class="font-bold text-2xl">¡Ocurrió un error!</p>
+    <p class="mt-2">{{ error }}</p>
+    <a routerLink="/catalogo" class="mt-6 inline-block bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700">Volver al Catálogo</a>
+  </div>
+
+  <!-- Contenido Principal del Producto -->
+  <div *ngIf="product && !isLoading" class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+    <!-- El resto del HTML del detalle del producto se mantiene igual -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-12">
+      <!-- Columna de Imagen -->
+      <div class="flex justify-center items-start">
+        <img [src]="product.imagenUrl" [alt]="product.nombre" class="w-full max-w-md object-cover rounded-lg shadow-lg">
+      </div>
+      <!-- Columna de Información -->
+      <div>
+        <h2 class="text-sm font-medium tracking-wide text-blue-600 uppercase">{{ product.categoria.nombre }}</h2>
+        <h1 class="mt-2 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">{{ product.nombre }}</h1>
+        <div class="mt-6">
+          <p class="text-3xl text-gray-900">{{ product.precio | currency:'S/ ' }}</p>
+        </div>
+        <div class="mt-8">
+          <h3 class="text-lg font-medium text-gray-900">Descripción</h3>
+          <p class="mt-4 text-base text-gray-600 leading-relaxed">{{ product.descripcion }}</p>
+        </div>
+        <div class="mt-8">
+          <p class="text-md font-medium" [ngClass]="{'text-green-600': product.stock > 0, 'text-red-600': product.stock === 0}">
+            {{ product.stock > 0 ? 'En Stock' : 'Agotado' }} ({{ product.stock }} unidades)
+          </p>
+        </div>
+        <div class="mt-10">
+          <button type="button" class="w-full bg-blue-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400" [disabled]="product.stock === 0">
+            <i class="ph-shopping-cart-simple text-xl mr-2"></i>
+            Agregar al Carrito
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
