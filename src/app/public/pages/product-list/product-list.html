@@ -5,7 +5,7 @@
             <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-500">Calzado con estilo para toda la familia.</p>
         </div>
         
-        <!-- Estado de Carga con el nuevo componente -->
+        <!-- Estado de Carga -->
         <div *ngIf="isLoading">
             <app-loader></app-loader>
         </div>
@@ -27,7 +27,7 @@
                     <p class="text-base font-semibold text-gray-900 mt-1">{{ product.nombre }}</p>
                     <p class="text-lg font-bold text-blue-600 mt-2">{{ product.precio | currency:'S/ ' }}</p>
                     <button class="mt-4 w-full bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition-colors duration-300 flex items-center justify-center space-x-2">
-                        <i class="ph-shopping-cart-simple text-xl"></i>
+                        <i class="ph ph-shopping-cart-simple text-xl"></i>
                         <span>Agregar al Carrito</span>
                     </button>
                 </div>

@@ -1,5 +1,5 @@
 <div class="bg-white">
-  <!-- Estado de Carga con el nuevo componente -->
+  <!-- Estado de Carga  -->
   <div *ngIf="isLoading">
     <app-loader></app-loader>
   </div>
@@ -13,7 +13,7 @@
 
   <!-- Contenido Principal del Producto -->
   <div *ngIf="product && !isLoading" class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-    <!-- El resto del HTML del detalle del producto se mantiene igual -->
+    <!-- Detalle del producto -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-12">
       <!-- Columna de Imagen -->
       <div class="flex justify-center items-start">
@@ -35,10 +35,25 @@
             {{ product.stock > 0 ? 'En Stock' : 'Agotado' }} ({{ product.stock }} unidades)
           </p>
         </div>
-        <div class="mt-10">
-          <button type="button" class="w-full bg-blue-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400" [disabled]="product.stock === 0">
-            <i class="ph-shopping-cart-simple text-xl mr-2"></i>
-            Agregar al Carrito
+        <div class="mt-10 flex items-center space-x-4">
+          <!-- Selector de Cantidad -->
+          <div class="flex items-center border border-gray-300 rounded-md">
+            <button (click)="decrementQuantity()" class="px-3 py-2 text-lg font-medium text-gray-600 hover:bg-gray-100 rounded-l-md">-</button>
+  
+            <input type="text" [(ngModel)]="quantity" class="w-16 text-center border-l border-r border-gray-300 focus:outline-none focus:ring-0">
+            <button (click)="incrementQuantity()" class="px-3 py-2 text-lg font-medium text-gray-600 hover:bg-gray-100 rounded-r-md">+</button>
+          </div>
+
+          <!-- Botón de Agregar al Carrito -->
+          <button (click)="onAddToCart()" 
+                  type="button" 
+                  class="flex-1 bg-blue-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-700 disabled:bg-gray-400 transition-all duration-300"
+                  [disabled]="product.stock === 0 || addedToCart">
+            
+            <i *ngIf="addedToCart" class="ph ph-check-circle text-xl mr-2"></i>
+            <i *ngIf="!addedToCart" class="ph ph-shopping-cart-simple text-xl mr-2"></i>
+            
+            <span>{{ addedToCart ? '¡Añadido!' : 'Agregar al Carrito' }}</span>
           </button>
         </div>
       </div>

@@ -9,7 +9,6 @@ export interface Producto {
   precio: number;
   stock: number;
   imagenUrl: string;
-  // La categoría puede ser un objeto más complejo, pero para la lista es suficiente con el nombre.
   categoria: {
     id: number;
     nombre: string;
@@ -21,18 +20,18 @@ export interface Producto {
 })
 export class ProductService {
 
-  // La URL base de tu API de Spring Boot.
+  // URL base de API.
   private apiUrl = 'http://localhost:8080/api/productos';
 
   // Inyectamos el HttpClient que configuramos en app.config.ts
   constructor(private http: HttpClient) { }
 
-  // Este método hace una petición GET a la API y espera recibir un array de Productos.
+  //Método petición GET a la API de Productos.
   getProducts(): Observable<Producto[]> {
     return this.http.get<Producto[]>(this.apiUrl);
   }
 
-  // Hace una petición a la URL con el ID del producto.
+  // Método petición GET a la API con ID del producto.
   getProductById(id: number): Observable<Producto> {
     return this.http.get<Producto>(`${this.apiUrl}/${id}`);
   }

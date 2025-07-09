@@ -36,10 +36,19 @@
             <div class="hidden md:block">
                 <div class="ml-4 flex items-center md:ml-6">
                   <!-- Botón Carrito -->
-                  <a routerLink="/carrito" class="bg-white p-2 rounded-full text-gray-500 hover:text-blue-600 transition-colors duration-300">
+                  <!-- <a routerLink="/carrito" class="bg-white p-2 rounded-full text-gray-500 hover:text-blue-600 transition-colors duration-300">
                     <span class="sr-only">Ver carrito de compras</span>
                     <i class="ph ph-shopping-cart text-2xl"></i>
-                  </a>
+                  </a> -->
+                        <!-- Botón Carrito con contador -->
+                <a routerLink="/carrito" class="relative bg-white p-2 rounded-full text-gray-500 hover:text-blue-600 transition-colors duration-300">
+                    <span class="sr-only">Ver carrito de compras</span>
+                    <i class="ph ph-shopping-cart text-2xl"></i>
+                    <!-- El contador (badge) solo se muestra si hay items en el carrito -->
+                    <span *ngIf="cartItemCount > 0" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                    {{ cartItemCount }}
+                    </span>
+                </a>
                   <!-- Botón Usuario/Login -->
                   <a routerLink="/login" class="ml-3 bg-white p-2 rounded-full text-gray-500 hover:text-blue-600 transition-colors duration-300">
                     <span class="sr-only">Iniciar sesión / Ver perfil</span>

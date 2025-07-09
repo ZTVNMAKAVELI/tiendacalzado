@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService, Producto } from '../../../core/services/product.service';
-import { LoaderComponent } from '../../../shared/components/loader/loader'; // Importa el loader
-import { RouterLink } from '@angular/router'; // Importa RouterLink
+import { LoaderComponent } from '../../../shared/components/loader/loader'; 
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, LoaderComponent], // Añade RouterLink y LoaderComponent
+  imports: [CommonModule, RouterLink, LoaderComponent],
   templateUrl: './product-list.html',
   styleUrls: ['./product-list.scss']
 })
 export class ProductListComponent implements OnInit {
-  // El resto de la lógica del componente se mantiene igual
+
   products: Producto[] = [];
   isLoading = true;
   error: string | null = null;

@@ -1,6 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CartService } from '../../../core/services/cart.service';
 import { RouterLink, RouterLinkActive } from '@angular/router'; 
+import { Subscription } from 'rxjs';
+
+declare var phosphor: any;
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -8,14 +13,37 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss'
 })
-export class Navbar {
-  // Esta variable controlará si el menú móvil está visible o no.
-  // Por defecto, está cerrado (false).
-  isMobileMenuOpen = false;
 
-  // Esta función es llamada por el botón de hamburguesa en el HTML.
-  // Simplemente invierte el valor de isMobileMenuOpen.
+export class Navbar implements OnInit, OnDestroy, AfterViewInit {
+  
+  isMobileMenuOpen = false;
+  cartItemCount = 0;
+  private cartSubscription!: Subscription;
+
+  constructor(private cartService: CartService) {} // Inyectamos el servicio
+
+  ngOnInit(): void {
+
+    this.cartSubscription = this.cartService.items$.subscribe(items => {
+
+      this.cartItemCount = items.reduce((total, item) => total + item.quantity, 0);
+    });
+  }
+
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  ngAfterViewInit(): void {
+    if (typeof phosphor !== 'undefined') {
+      phosphor.scan();
+    }
+  }
+
+  // Limpiamos la suscripción
+  ngOnDestroy(): void {
+    if (this.cartSubscription) {
+      this.cartSubscription.unsubscribe();
+    }
   }
 }
