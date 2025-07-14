@@ -1,1 +1,65 @@
-<p>checkout works!</p>
+<main class="bg-gray-50">
+  <div class="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+    
+    <!-- Vista de Éxito -->
+    <div *ngIf="orderSuccess" class="text-center bg-white p-12 rounded-lg shadow">
+      <i class="ph-check-circle text-6xl text-green-500"></i>
+      <h1 class="mt-4 text-4xl font-bold tracking-tight text-gray-900">¡Gracias por tu compra!</h1>
+      <p class="mt-4 text-lg text-gray-600">Tu pedido ha sido registrado exitosamente.</p>
+      <p class="mt-2 text-gray-500">Recibirás una confirmación por correo electrónico pronto.</p>
+      <a routerLink="/catalogo" class="mt-8 inline-block bg-blue-600 text-white font-semibold py-3 px-8 rounded-md hover:bg-blue-700 transition-colors">
+        Seguir Comprando
+      </a>
+    </div>
+
+    <!-- Vista Principal del Checkout (si el pedido no ha sido exitoso) -->
+    <ng-container *ngIf="!orderSuccess">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900">Finalizar Compra</h1>
+        <p class="mt-2 text-gray-500">Revisa tu pedido y confirma la compra.</p>
+      </div>
+
+      <div class="bg-white p-8 rounded-lg shadow">
+        <h2 class="text-2xl font-semibold mb-6">Resumen del Pedido</h2>
+        
+        <!-- Lista de productos -->
+        <ul role="list" class="divide-y divide-gray-200">
+          <li *ngFor="let item of (cartItems$ | async)" class="py-4 flex items-center space-x-4">
+            <img [src]="item.product.imagenUrl" [alt]="item.product.nombre" class="h-16 w-16 rounded-md object-cover">
+            <div class="flex-1">
+              <p class="font-medium text-gray-800">{{ item.product.nombre }}</p>
+              <p class="text-sm text-gray-500">Cantidad: {{ item.quantity }}</p>
+            </div>
+            <p class="font-medium text-gray-900">{{ (item.product.precio * item.quantity) | currency:'S/ ' }}</p>
+          </li>
+        </ul>
+
+        <!-- Total -->
+        <div class="border-t border-gray-200 mt-6 pt-6">
+          <div class="flex justify-between text-xl font-bold text-gray-900">
+            <p>Total a Pagar</p>
+            <p>{{ cartTotal$ | async | currency:'S/ ' }}</p>
+          </div>
+        </div>
+
+        <!-- Estado de Procesamiento (Loader) -->
+        <div *ngIf="isProcessing" class="mt-6">
+            <app-loader></app-loader>
+        </div>
+
+        <!-- Estado de Error -->
+        <div *ngIf="orderError" class="mt-6 p-4 text-sm text-red-700 bg-red-100 rounded-lg">
+            {{ orderError }}
+        </div>
+
+        <!-- Botón de Confirmación -->
+        <div class="mt-8">
+          <button (click)="placeOrder()" [disabled]="isProcessing" class="w-full flex items-center justify-center rounded-md border border-transparent bg-green-600 px-6 py-4 text-lg font-medium text-white shadow-sm hover:bg-green-700 disabled:bg-gray-400">
+            Confirmar Pedido
+          </button>
+        </div>
+      </div>
+    </ng-container>
+
+  </div>
+</main>

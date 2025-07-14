@@ -3,7 +3,8 @@ import { provideRouter, withViewTransitions } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch , withInterceptors} from '@angular/common/http';
+import { HttpRequestInterceptor } from './core/interceptors/http-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,7 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withViewTransitions()),
 
     // Provee el cliente HTTP para hacer llamadas a tu API de Java.
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([HttpRequestInterceptor])),
 
     // Provee la hidratación del cliente (para Server-Side Rendering).
     provideClientHydration()

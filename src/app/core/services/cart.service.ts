@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject,map } from 'rxjs';
-import { Producto } from './product.service'; // Interfaz de Producto
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { BehaviorSubject, map } from 'rxjs';
+import { Producto } from './product.service';
 
-// Items dentro del carrito
 export interface CartItem {
   product: Producto;
   quantity: number;
@@ -12,21 +12,27 @@ export interface CartItem {
   providedIn: 'root'
 })
 export class CartService {
-
   private readonly CART_STORAGE_KEY = 'my_cart';
-  // BehaviorSubject es un tipo especial de Observable que guarda el último valor emitido.
-  private itemsSubject = new BehaviorSubject<CartItem[]>(this.getCartFromStorage());
+  private isBrowser: boolean;
+
+  private itemsSubject = new BehaviorSubject<CartItem[]>([]);
   public items$ = this.itemsSubject.asObservable();
 
-    // Observable para calcular el total del carrito dinámicamente.
   public total$ = this.items$.pipe(
     map(items => items.reduce((total, item) => total + (item.product.precio * item.quantity), 0))
   );
 
-  constructor() {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    // Verificamos si estamos en el navegador al construir el servicio.
+    this.isBrowser = isPlatformBrowser(this.platformId);
+    // Si estamos en el navegador, cargamos el carrito desde localStorage.
+    if (this.isBrowser) {
+      this.itemsSubject.next(this.getCartFromStorage());
+    }
+  }
 
-    // Método privado para obtener el carrito desde localStorage.
   private getCartFromStorage(): CartItem[] {
+    // Esta función ahora solo se llamará si estamos en el navegador.
     try {
       const cartJson = localStorage.getItem(this.CART_STORAGE_KEY);
       return cartJson ? JSON.parse(cartJson) : [];
@@ -36,23 +42,24 @@ export class CartService {
     }
   }
 
-  // Método privado para guardar el carrito en localStorage.
   private saveCartToStorage(items: CartItem[]): void {
-    try {
-      localStorage.setItem(this.CART_STORAGE_KEY, JSON.stringify(items));
-    } catch (e) {
-      console.error('Error al guardar el carrito en localStorage', e);
+    // Solo guardamos si estamos en el navegador.
+    if (this.isBrowser) {
+      try {
+        localStorage.setItem(this.CART_STORAGE_KEY, JSON.stringify(items));
+      } catch (e) {
+        console.error('Error al guardar el carrito en localStorage', e);
+      }
     }
   }
 
-    private updateCart(items: CartItem[]): void {
+  private updateCart(items: CartItem[]): void {
     this.itemsSubject.next(items);
     this.saveCartToStorage(items);
   }
-  // Método principal para añadir productos al carrito
-  addToCart(product: Producto, quantity: number): void {
-    if (quantity <= 0) return; // No hacer nada si la cantidad es cero o negativa.
 
+  addToCart(product: Producto, quantity: number): void {
+    if (quantity <= 0) return;
     const currentItems = this.itemsSubject.getValue();
     const existingItem = currentItems.find(item => item.product.id === product.id);
 
@@ -61,20 +68,15 @@ export class CartService {
     } else {
       currentItems.push({ product, quantity });
     }
-
-    this.itemsSubject.next([...currentItems]);
-    this.saveCartToStorage(currentItems); // Guardamos el estado actualizado.
-    console.log('Carrito actualizado:', this.itemsSubject.getValue());
+    this.updateCart([...currentItems]);
   }
 
-  // Método para eliminar un item del carrito.
   removeItem(productId: number): void {
     const currentItems = this.itemsSubject.getValue();
     const filteredItems = currentItems.filter(item => item.product.id !== productId);
     this.updateCart(filteredItems);
   }
 
-  // Método para actualizar la cantidad de un item.
   updateQuantity(productId: number, newQuantity: number): void {
     if (newQuantity <= 0) {
       this.removeItem(productId);
@@ -88,9 +90,7 @@ export class CartService {
     }
   }
 
-  // Método para vaciar completamente el carrito.
   clearCart(): void {
     this.updateCart([]);
   }
-  // getCartTotal() { ... }
 }

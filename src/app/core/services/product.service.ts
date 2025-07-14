@@ -22,6 +22,7 @@ export class ProductService {
 
   // URL base de API.
   private apiUrl = 'http://localhost:8080/api/productos';
+  private fileApiUrl = 'http://localhost:8080/api/files'; // URL para el nuevo controlador de archivos
 
   // Inyectamos el HttpClient que configuramos en app.config.ts
   constructor(private http: HttpClient) { }
@@ -36,6 +37,21 @@ export class ProductService {
     return this.http.get<Producto>(`${this.apiUrl}/${id}`);
   }
 
-  // getProductById(id: number): Observable<Product> { ... }
+  createProduct(product: Producto): Observable<Producto> {
+    return this.http.post<Producto>(this.apiUrl, product);
+  }
 
+  updateProduct(id: number, product: Producto): Observable<Producto> {
+    return this.http.put<Producto>(`${this.apiUrl}/${id}`, product);
+  }
+
+  deleteProduct(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  uploadImage(file: File): Observable<{ url: string }> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<{ url: string }>(`${this.fileApiUrl}/upload`, formData);
+  }
 }
