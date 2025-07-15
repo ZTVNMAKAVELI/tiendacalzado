@@ -1,82 +1,126 @@
-   <!-- ====================================================================== -->
-    <!--  INICIO DE LA PÁGINA "CONTACTO"                                       -->
-    <!-- ====================================================================== -->
-    <main id="contacto" class="bg-white">
-        <div class="max-w-7xl mx-auto py-24 px-6 lg:px-8">
-            <!-- Encabezado -->
-            <div class="text-center mb-16">
-                <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Ponte en Contacto</h1>
-                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">¿Tienes alguna duda o consulta? Estamos aquí para ayudarte.</p>
+<main id="contacto" class="bg-gray-50 min-h-screen py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Encabezado -->
+    <div class="text-center mb-16 animate-fade-in-down">
+      <h1 class="text-5xl font-extrabold tracking-tight text-gray-900 sm:text-6xl drop-shadow-sm">Ponte en Contacto</h1>
+      <p class="mt-4 max-w-3xl mx-auto text-xl text-gray-600">¿Tienes alguna duda, consulta o sugerencia? Estamos aquí para escucharte y ayudarte.</p>
+    </div>
+
+    <!-- Contenedor Principal: Formulario e Información -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+      <!-- Columna Izquierda: Formulario de Contacto -->
+      <div class="bg-white p-8 rounded-2xl shadow-2xl border border-gray-200 animate-fade-in-left">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 border-b pb-4">Envíanos un Mensaje</h2>
+        <form #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()" novalidate class="space-y-6">
+          <div>
+            <label for="nombre" class="block text-sm font-semibold text-gray-700 mb-1">Nombre completo</label>
+            <div class="relative">
+              <input type="text" id="nombre" name="nombre" [(ngModel)]="form.nombre" required #nombre="ngModel"
+                     placeholder="Ej: Juan Pérez"
+                     class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-900 placeholder-gray-400">
+              <i class="ph ph-user text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 text-xl"></i>
             </div>
-
-            <!-- Contenedor Principal: Formulario e Información -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
-                
-                <!-- Columna Izquierda: Formulario de Contacto -->
-                <div class="bg-gray-50 p-8 rounded-lg shadow-md">
-                    <form action="#" method="POST">
-                        <div class="space-y-6">
-                            <div>
-                                <label for="nombre" class="text-sm font-medium text-gray-700">Nombre completo</label>
-                                <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                            </div>
-                             <div>
-                                <label for="email" class="text-sm font-medium text-gray-700">Correo electrónico</label>
-                                <input type="email" id="email" name="email" placeholder="tu.correo@ejemplo.com" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                            </div>
-                            <div>
-                                <label for="asunto" class="text-sm font-medium text-gray-700">Asunto</label>
-                                <input type="text" id="asunto" name="asunto" placeholder="Consulta sobre un producto" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                            </div>
-                            <div>
-                                <label for="mensaje" class="text-sm font-medium text-gray-700">Mensaje</label>
-                                <textarea id="mensaje" name="mensaje" rows="4" placeholder="Escribe tu mensaje aquí..." class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
-                            </div>
-                            <div>
-                                <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                    Enviar Mensaje
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Columna Derecha: Información y Mapa -->
-                <div class="space-y-12">
-                    <!-- Bloque de Información de Contacto -->
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Nuestra Oficina</h3>
-                        <div class="space-y-4 text-gray-600">
-                            <p class="flex items-start">
-                                <i class="ph-map-pin-line text-blue-600 text-2xl mr-4 flex-shrink-0"></i>
-                                <span>Av. José Pardo 130, Miraflores, Lima, Perú</span>
-                            </p>
-                            <p class="flex items-center">
-                                <i class="ph-phone-call text-blue-600 text-2xl mr-4"></i>
-                                <span>(+51) 987 654 321</span>
-                            </p>
-                             <p class="flex items-center">
-                                <i class="ph-envelope-simple text-blue-600 text-2xl mr-4"></i>
-                                <span>contacto&#64;bananitos.com.pe</span>   </p>
-                            <p class="flex items-center">
-                                <i class="ph-clock text-blue-600 text-2xl mr-4"></i>
-                                <span>Lunes a Sábado: 10:00 - 20:00</span>
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Bloque del Mapa -->
-                    <div>
-                         <h3 class="text-xl font-semibold text-gray-900 mb-4">Encuéntranos Aquí</h3>
-                         <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-md">
-                            <!-- Iframe de Google Maps. Usamos una imagen como placeholder. -->
-                             <!-- <img src="https://placehold.co/800x600/e0e0e0/555555?text=Mapa+de+Ubicaci%C3%B3n%0A" alt="[Mapa de ubicación]" class="w-full h-full object-cover"> -->
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1633.4699111473792!2d-74.22439649822891!3d-13.158105587726796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91127d5bc224704f%3A0x13c10807c6d5fdfe!2sZAPATERIA%20BANANITOS!5e0!3m2!1ses-419!2spe!4v1752081452364!5m2!1ses-419!2spe" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>                            </div>
-                    </div>
-                </div>
+            <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="mt-1 text-red-600 text-sm">
+              <div *ngIf="nombre.errors?.['required']">El nombre es requerido.</div>
             </div>
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Correo electrónico</label>
+            <div class="relative">
+              <input type="email" id="email" name="email" [(ngModel)]="form.email" required email #email="ngModel"
+                     placeholder="tu.correo@ejemplo.com"
+                     class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-900 placeholder-gray-400">
+              <i class="ph ph-envelope text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 text-xl"></i>
+            </div>
+            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="mt-1 text-red-600 text-sm">
+              <div *ngIf="email.errors?.['required']">El correo electrónico es requerido.</div>
+              <div *ngIf="email.errors?.['email']">El formato del correo electrónico es inválido.</div>
+            </div>
+          </div>
+
+          <div>
+            <label for="asunto" class="block text-sm font-semibold text-gray-700 mb-1">Asunto</label>
+            <div class="relative">
+              <input type="text" id="asunto" name="asunto" [(ngModel)]="form.asunto" required #asunto="ngModel"
+                     placeholder="Consulta sobre un producto"
+                     class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-900 placeholder-gray-400">
+              <i class="ph ph-info text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 text-xl"></i>
+            </div>
+            <div *ngIf="asunto.invalid && (asunto.dirty || asunto.touched)" class="mt-1 text-red-600 text-sm">
+              <div *ngIf="asunto.errors?.['required']">El asunto es requerido.</div>
+            </div>
+          </div>
+
+          <div>
+            <label for="mensaje" class="block text-sm font-semibold text-gray-700 mb-1">Mensaje</label>
+            <div class="relative">
+              <textarea id="mensaje" name="mensaje" [(ngModel)]="form.mensaje" required rows="5" #mensaje="ngModel"
+                        placeholder="Escribe tu mensaje aquí..."
+                        class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-900 placeholder-gray-400"></textarea>
+              <i class="ph ph-chat-text text-gray-400 absolute left-3 top-4 text-xl"></i>
+            </div>
+            <div *ngIf="mensaje.invalid && (mensaje.dirty || mensaje.touched)" class="mt-1 text-red-600 text-sm">
+              <div *ngIf="mensaje.errors?.['required']">El mensaje es requerido.</div>
+            </div>
+          </div>
+
+          <!-- Mensaje de Éxito/Error del Formulario -->
+          <div *ngIf="formSubmitted" class="mt-4 p-4 rounded-lg shadow-sm flex items-center animate-fade-in"
+               [ngClass]="{'bg-green-100 text-green-700 border border-green-200': isSuccessful, 'bg-red-100 text-red-700 border border-red-200': !isSuccessful}">
+            <i class="ph text-xl mr-3" [ngClass]="{'ph-check-circle': isSuccessful, 'ph-x-circle': !isSuccessful}"></i>
+            <div>
+              <p class="font-semibold mb-0.5">{{ isSuccessful ? '¡Mensaje Enviado!' : 'Error al Enviar Mensaje' }}</p>
+              <p>{{ responseMessage }}</p>
+            </div>
+          </div>
+
+          <div>
+            <button type="submit" [disabled]="f.form.invalid || isLoading"
+                    class="w-full flex items-center justify-center px-6 py-3 mt-8 font-bold text-white bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg shadow-lg hover:from-blue-700 hover:to-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 ease-in-out transform hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:from-gray-400 disabled:to-gray-500">
+              <span *ngIf="!isLoading">Enviar Mensaje</span>
+              <span *ngIf="isLoading" class="flex items-center">
+                <i class="ph ph-circle-notch animate-spin mr-2 text-xl"></i> Enviando...
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Columna Derecha: Información y Mapa -->
+      <div class="space-y-12 animate-fade-in-right">
+        <!-- Bloque de Información de Contacto -->
+        <div class="bg-white p-8 rounded-2xl shadow-2xl border border-gray-200">
+          <h3 class="text-3xl font-bold text-gray-900 mb-6 border-b pb-4">Nuestra Oficina</h3>
+          <div class="space-y-6 text-gray-700 text-lg">
+            <p class="flex items-start">
+              <i class="ph ph-map-pin-line text-blue-600 text-3xl mr-4 flex-shrink-0"></i>
+              <span>Av. José Pardo 130, Miraflores, Lima, Perú</span>
+            </p>
+            <p class="flex items-center">
+              <i class="ph ph-phone-call text-blue-600 text-3xl mr-4"></i>
+              <span><a href="tel:+51987654321" class="hover:underline">(+51) 987 654 321</a></span>
+            </p>
+            <p class="flex items-center">
+              <i class="ph ph-envelope-simple text-blue-600 text-3xl mr-4"></i>
+              <span><a href="mailto:contacto&#64;bananitos.com.pe" class="hover:underline">contacto&#64;bananitos.com</a></span>
+            </p>
+            <p class="flex items-center">
+              <i class="ph ph-clock text-blue-600 text-3xl mr-4"></i>
+              <span>Lunes a Sábado: 10:00 - 20:00</span>
+            </p>
+          </div>
         </div>
-    </main>
-    <!-- ====================================================================== -->
-    <!--  FIN DE LA PÁGINA "CONTACTO"                                          -->
-    <!-- ====================================================================== -->
+
+        <!-- Bloque del Mapa -->
+        <div class="bg-white p-8 rounded-2xl shadow-2xl border border-gray-200">
+          <h3 class="text-3xl font-bold text-gray-900 mb-6 border-b pb-4">Encuéntranos Aquí</h3>
+          <div class="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden shadow-md border border-gray-200">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1633.4699111473792!2d-74.22439649822891!3d-13.158105587726796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91127d5bc224704f%3A0x13c10807c6d5fdfe!2sZAPATERIA%20BANANITOS!5e0!3m2!1ses-419!2spe!4v1752081452364!5m2!1ses-419!2spe" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

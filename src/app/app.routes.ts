@@ -9,9 +9,10 @@ import { LoginComponent } from './auth/pages/login/login';
 import { RegisterComponent } from './auth/pages/register/register';
 import { authGuard } from './core/guards/auth-guard';
 import { CheckoutComponent } from './public/pages/checkout/checkout';
-import { adminGuard } from './core/guards/admin-guard'; // Importa el admin guard
+import { adminGuard } from './core/guards/admin-guard';
 import { AdminProductListComponent } from './admin/pages/product-list/product-list';
 import { AdminProductFormComponent } from './admin/pages/product-form/product-form';
+import { MyOrdersComponent } from './public/pages/my-orders/my-orders';
 export const routes: Routes = [
    
 
@@ -28,6 +29,7 @@ export const routes: Routes = [
       component: CheckoutComponent,
       canActivate: [authGuard]
     },
+    { path: 'mis-pedidos', component: MyOrdersComponent, canActivate: [authGuard] }, 
       { 
     path: 'admin/productos', 
     component: AdminProductListComponent, 

@@ -7,16 +7,16 @@ const USER_KEY = 'auth-user';
   providedIn: 'root'
 })
 export class StorageService {
-  // Propiedad para saber si estamos en el navegador
+
   private isBrowser: boolean;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    // Verificamos la plataforma al construir el servicio
+
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
   clean(): void {
-    // Solo interactuamos con localStorage si estamos en un navegador
+
     if (this.isBrowser) {
       window.localStorage.clear();
     }
@@ -36,7 +36,6 @@ export class StorageService {
         return JSON.parse(user);
       }
     }
-    // Si no estamos en el navegador, devolvemos un objeto vacío
     return {};
   }
 
@@ -45,7 +44,6 @@ export class StorageService {
       const user = window.localStorage.getItem(USER_KEY);
       return !!user;
     }
-    // Si no estamos en el navegador, el usuario no puede estar logueado
     return false;
   }
 }

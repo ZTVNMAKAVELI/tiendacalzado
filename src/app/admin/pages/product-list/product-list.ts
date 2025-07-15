@@ -29,7 +29,7 @@ export class AdminProductListComponent implements OnInit {
   deleteProduct(id: number): void {
     if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
       this.productService.deleteProduct(id).subscribe(() => {
-        this.loadProducts(); // Recarga la lista después de eliminar
+        this.loadProducts(); // Recarga lista después de eliminar
       });
     }
   }

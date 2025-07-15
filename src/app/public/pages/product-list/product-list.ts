@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService, Producto } from '../../../core/services/product.service';
-import { LoaderComponent } from '../../../shared/components/loader/loader'; 
+import { CartService } from '../../../core/services/cart.service';
+import { LoaderComponent } from '../../../shared/components/loader/loader';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -17,7 +18,10 @@ export class ProductListComponent implements OnInit {
   isLoading = true;
   error: string | null = null;
 
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService
+  ) { }
 
   ngOnInit(): void {
     this.loadProducts();
@@ -33,9 +37,19 @@ export class ProductListComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar los productos:', err);
-        this.error = 'No se pudieron cargar los productos. Por favor, intente más tarde.';
+        this.error = 'No se pudieron cargar los productos en este momento. Por favor, intente recargar la pagina.';
         this.isLoading = false;
       }
     });
+  }
+
+  onAddToCart(product: Producto): void {
+    if (product.stock > 0) {
+      this.cartService.addToCart(product, 1);
+      
+      console.log(`${product.nombre} agregado al carrito`);
+    } else {
+      console.warn(`No se puede agregar ${product.nombre} al carrito`);
+    }
   }
 }

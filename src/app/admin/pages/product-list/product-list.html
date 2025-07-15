@@ -7,10 +7,10 @@
     </a>
   </div>
 
-  <!-- Contenedor que se adapta: tabla en pantallas grandes, tarjetas en pequeñas -->
+  <!-- Contenedor  -->
   <div class="bg-white shadow rounded-lg overflow-hidden">
     <div class="responsive-table-container">
-      <!-- La tabla se oculta en pantallas pequeñas -->
+
       <table class="min-w-full divide-y divide-gray-200 hidden md:table">
         <thead class="bg-gray-50">
           <tr>
@@ -45,7 +45,6 @@
         </tbody>
       </table>
 
-      <!-- Lista de tarjetas, visible solo en pantallas pequeñas -->
       <div class="grid grid-cols-1 gap-4 p-4 md:hidden">
         <div *ngFor="let product of products" class="bg-white border rounded-lg shadow-sm p-4 space-y-3">
           <div class="flex items-center space-x-4">

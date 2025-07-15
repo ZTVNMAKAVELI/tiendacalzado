@@ -1,0 +1,81 @@
+<main class="bg-gray-50 min-h-screen py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+
+      <!-- Encabezado -->
+      <div class="mb-10 text-center sm:text-left animate-fade-in-down">
+        <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Hola, <span class="text-blue-600">{{ username }}</span></h1>
+        <p class="mt-2 text-xl text-gray-600">Bienvenido a tu historial de compras. Aquí puedes ver todos tus pedidos.</p>
+      </div>
+
+      <!-- Contenedor Principal: Mis Pedidos -->
+      <div class="bg-white p-8 rounded-2xl shadow-2xl border border-gray-200 animate-fade-in-up">
+        <h2 class="text-3xl font-bold mb-8 text-gray-800 border-b pb-4">Mis Pedidos</h2>
+
+        <!-- Estado de Carga -->
+        <div *ngIf="isLoading" class="flex justify-center items-center py-20">
+          <app-loader></app-loader>
+          <p class="ml-4 text-lg text-gray-600">Cargando tus pedidos...</p>
+        </div>
+
+        <!-- Estado de Error -->
+        <div *ngIf="error" class="text-center py-10 bg-red-100 text-red-800 p-8 rounded-xl shadow-md border border-red-200 animate-fade-in">
+          <i class="ph ph-warning-circle text-6xl mb-4"></i>
+          <p class="font-bold text-2xl">¡Ocurrió un error!</p>
+          <p class="mt-2 text-lg">{{ error }}</p>
+          <button (click)="loadOrders()" class="mt-6 inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-105">
+            <i class="ph ph-arrow-clockwise text-xl mr-2"></i> Reintentar Carga
+          </button>
+        </div>
+
+        <!-- Lista de Pedidos -->
+        <div *ngIf="!isLoading && !error">
+          <!-- Vista para Sin Pedidos -->
+          <div *ngIf="orders.length === 0" class="text-center py-20 bg-gray-50 p-8 rounded-xl border border-gray-200 animate-fade-in">
+            <i class="ph ph-package text-6xl text-gray-300 mb-4"></i>
+            <p class="mt-2 text-2xl font-bold text-gray-800">Aún no has realizado ningún pedido.</p>
+            <p class="mt-2 text-lg text-gray-600">¡Es el momento perfecto para explorar nuestro catálogo y encontrar algo que te encante!</p>
+            <a routerLink="/catalogo" class="mt-8 inline-flex items-center px-10 py-4 border border-transparent text-lg font-semibold rounded-full shadow-lg text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 ease-in-out transform hover:scale-105">
+              <i class="ph ph-arrow-right text-xl mr-3"></i> Explorar Catálogo
+            </a>
+          </div>
+
+          <!-- Acordeón de Pedidos -->
+          <div *ngIf="orders.length > 0" class="space-y-6">
+            <div *ngFor="let order of orders; let i = index" class="bg-white border border-gray-200 rounded-xl shadow-md overflow-hidden animate-fade-in-up-staggered" [style.animation-delay]="(i * 0.1) + 's'">
+
+              <!-- Cabecera del Pedido (Clickable) -->
+              <button (click)="toggleOrderDetails(order.id)" class="w-full flex flex-col sm:flex-row justify-between items-center p-5 text-left bg-gray-50 hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-200">
+                <div class="flex-1 mb-3 sm:mb-0">
+                  <p class="font-bold text-xl text-blue-700">Pedido #{{ order.id }}</p>
+                  <p class="text-sm text-gray-600 mt-1">Fecha: {{ order.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                  <p class="font-extrabold text-2xl text-gray-900">{{ order.total | currency:'S/ ' }}</p>
+                  <i class="ph text-2xl text-gray-500 transition-transform duration-300" [ngClass]="{'ph-caret-down': expandedOrderId !== order.id, 'ph-caret-up': expandedOrderId === order.id}"></i>
+                </div>
+              </button>
+
+              <!-- Detalles del Pedido (Expandible) -->
+              <div *ngIf="expandedOrderId === order.id" class="border-t border-gray-200 bg-white p-5 animate-slide-down">
+                <h4 class="font-semibold text-lg text-gray-800 mb-4">Productos en este pedido:</h4>
+                <ul class="space-y-4">
+                  <li *ngFor="let detalle of order.detalles" class="flex items-center space-x-5">
+                    <img [src]="detalle.productoImagenUrl" alt="{{ detalle.productoNombre }}" class="h-16 w-16 rounded-md object-cover shadow-sm border border-gray-100">
+                    <div class="flex-1">
+                      <p class="font-medium text-gray-900">{{ detalle.productoNombre }}</p>
+                      <p class="text-sm text-gray-600">Cantidad: {{ detalle.cantidad }}</p>
+                      <p class="text-sm text-gray-500">Precio Unitario: {{ detalle.precio | currency:'S/ ' }}</p>
+                    </div>
+                    <p class="font-semibold text-gray-900">{{ (detalle.precio * detalle.cantidad) | currency:'S/ ' }}</p>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

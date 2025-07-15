@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { StorageService } from '../services/storage.service';
 
 export const HttpRequestInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
-  // Usamos inject() para obtener la instancia del servicio correctamente
+ 
   const storageService = inject(StorageService);
   let clonedRequest = req;
 

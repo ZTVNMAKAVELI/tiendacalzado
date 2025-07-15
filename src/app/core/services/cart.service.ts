@@ -23,16 +23,16 @@ export class CartService {
   );
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    // Verificamos si estamos en el navegador al construir el servicio.
+
     this.isBrowser = isPlatformBrowser(this.platformId);
-    // Si estamos en el navegador, cargamos el carrito desde localStorage.
+
     if (this.isBrowser) {
       this.itemsSubject.next(this.getCartFromStorage());
     }
   }
 
   private getCartFromStorage(): CartItem[] {
-    // Esta función ahora solo se llamará si estamos en el navegador.
+
     try {
       const cartJson = localStorage.getItem(this.CART_STORAGE_KEY);
       return cartJson ? JSON.parse(cartJson) : [];
@@ -43,7 +43,7 @@ export class CartService {
   }
 
   private saveCartToStorage(items: CartItem[]): void {
-    // Solo guardamos si estamos en el navegador.
+
     if (this.isBrowser) {
       try {
         localStorage.setItem(this.CART_STORAGE_KEY, JSON.stringify(items));

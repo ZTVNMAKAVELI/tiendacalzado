@@ -1,49 +1,85 @@
-<div class="flex items-center justify-center min-h-screen bg-gray-50 px-4">
-  <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+<div class="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-50 to-blue-100 p-4 sm:p-6 lg:p-8">
+  <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-2xl shadow-2xl border border-gray-200 transform transition-all duration-300 scale-95 opacity-0 animate-scale-in-fade">
     <div class="text-center">
-      <h2 class="text-3xl font-bold text-gray-900">Crear una Cuenta</h2>
-      <p class="mt-2 text-sm text-gray-600">Es rápido y fácil.</p>
+      <img class="mx-auto h-24 w-auto mb-4 animate-bounce-in-logo" src="assets/images/logo/LogoBananitos.png" alt="Logo Bananitos">
+      <h2 class="text-4xl font-extrabold text-gray-900 tracking-tight">Crear una Cuenta</h2>
+      <p class="mt-3 text-lg text-gray-600">¡Es rápido y fácil!</p>
     </div>
 
     <!-- Formulario visible si el registro no ha sido exitoso -->
-    <form *ngIf="!isSuccessful" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()" novalidate>
-      <div class="space-y-4">
-        <div>
-          <label for="name" class="text-sm font-medium">Nombres y Apellidos</label>
-          <input type="text" name="name" [(ngModel)]="form.name" required #name="ngModel"
-                 class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+    <form *ngIf="!isSuccessful" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()" novalidate class="space-y-6">
+      <div>
+        <label for="name" class="block text-sm font-semibold text-gray-700 mb-1">Nombres y Apellidos</label>
+        <div class="relative">
+          <input type="text" name="name" [(ngModel)]="form.name" required pattern="[a-zA-Z\s]+" #name="ngModel"
+                 class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-900 placeholder-gray-400"
+                 placeholder="Ej: Juan Pérez">
+          <i class="ph ph-user text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 text-xl"></i>
         </div>
-        <div>
-          <label for="email" class="text-sm font-medium">Correo Electrónico</label>
-          <input type="email" name="email" [(ngModel)]="form.email" required email #email="ngModel"
-                 class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-        </div>
-        <div>
-          <label for="password" class="text-sm font-medium">Contraseña</label>
-          <input type="password" name="password" [(ngModel)]="form.password" required minlength="6" #password="ngModel"
-                 class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="mt-1 text-red-600 text-sm">
+          <div *ngIf="name.errors?.['required']">El nombre es requerido.</div>
+          <div *ngIf="name.errors?.['pattern']">El nombre solo debe contener letras y espacios.</div>
         </div>
       </div>
 
-      <button type="submit" [disabled]="f.form.invalid"
-              class="w-full px-4 py-2 mt-6 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400">
-        Registrarse
+      <div>
+        <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Correo Electrónico</label>
+        <div class="relative">
+          <input type="email" name="email" [(ngModel)]="form.email" required email #email="ngModel"
+                 class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-900 placeholder-gray-400"
+                 placeholder="tu.correo@ejemplo.com">
+          <i class="ph ph-envelope text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 text-xl"></i>
+        </div>
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="mt-1 text-red-600 text-sm">
+          <div *ngIf="email.errors?.['required']">El correo electrónico es requerido.</div>
+          <div *ngIf="email.errors?.['email']">El formato del correo electrónico es inválido.</div>
+        </div>
+      </div>
+
+      <div>
+        <label for="password" class="block text-sm font-semibold text-gray-700 mb-1">Contraseña</label>
+        <div class="relative">
+          <input type="password" name="password" [(ngModel)]="form.password" required minlength="6" #password="ngModel"
+                 class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-900 placeholder-gray-400"
+                 placeholder="••••••••">
+          <i class="ph ph-lock-key text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 text-xl"></i>
+        </div>
+        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="mt-1 text-red-600 text-sm">
+          <div *ngIf="password.errors?.['required']">La contraseña es requerida.</div>
+          <div *ngIf="password.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="f.form.invalid || isLoading"
+              class="w-full flex items-center justify-center px-6 py-3 mt-8 font-bold text-white bg-gradient-to-r from-green-600 to-green-800 rounded-lg shadow-lg hover:from-green-700 hover:to-green-900 focus:outline-none focus:ring-4 focus:ring-green-300 transition-all duration-300 ease-in-out transform hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:from-gray-400 disabled:to-gray-500">
+        <span *ngIf="!isLoading">Registrarse</span>
+        <span *ngIf="isLoading" class="flex items-center">
+          <i class="ph ph-circle-notch animate-spin mr-2 text-xl"></i> Cargando...
+        </span>
       </button>
     </form>
 
     <!-- Mensaje de Error -->
-    <div *ngIf="isSignUpFailed" class="p-3 mt-4 text-sm text-red-700 bg-red-100 rounded-lg">
-      {{ errorMessage }}
+    <div *ngIf="isSignUpFailed" class="p-4 mt-4 text-sm text-red-700 bg-red-100 rounded-lg border border-red-200 shadow-sm flex items-center animate-fade-in">
+      <i class="ph ph-x-circle text-xl mr-3"></i>
+      <div>
+        <p class="font-semibold mb-0.5">Error de registro:</p>
+        <p>{{ errorMessage }}</p>
+      </div>
     </div>
 
     <!-- Mensaje de Éxito -->
-    <div *ngIf="isSuccessful" class="p-3 mt-4 text-sm text-green-700 bg-green-100 rounded-lg">
-      ¡Registro exitoso! Ahora puedes <a routerLink="/login" class="font-bold underline">iniciar sesión</a>.
+    <div *ngIf="isSuccessful" class="p-4 mt-4 text-sm text-green-700 bg-green-100 rounded-lg border border-green-200 shadow-sm flex items-center animate-fade-in">
+      <i class="ph ph-check-circle text-xl mr-3"></i>
+      <div>
+        <p class="font-semibold mb-0.5">¡Registro exitoso!</p>
+        <p>Ahora puedes <a routerLink="/login" class="font-bold text-blue-600 hover:underline transition-colors duration-200">iniciar sesión</a> para explorar.</p>
+      </div>
     </div>
-    
+
     <!-- Enlace para ir a Login -->
-    <p *ngIf="!isSuccessful" class="text-sm text-center text-gray-600">
-      ¿Ya tienes una cuenta? <a routerLink="/login" class="font-medium text-blue-600 hover:underline">Inicia sesión</a>
-    </p>
+    <div *ngIf="!isSuccessful" class="text-sm text-center text-gray-600 mt-6">
+      ¿Ya tienes una cuenta? <a routerLink="/login" class="font-semibold text-blue-600 hover:underline transition-colors duration-200">Inicia sesión</a>
+    </div>
   </div>
 </div>

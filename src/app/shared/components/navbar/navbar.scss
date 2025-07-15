@@ -1,37 +1,35 @@
 /* Estilos para la clase base de los enlaces de navegación */
 .nav-link {
-    /* Estas son las propiedades CSS equivalentes a las clases de Tailwind */
-    color: #6B7280; /* text-gray-500 */
-    padding: 0.5rem 0.75rem; /* px-3 py-2 */
-    border-radius: 0.375rem; /* rounded-md */
-    font-size: 0.875rem; /* text-sm */
-    font-weight: 500; /* font-medium */
-    transition: background-color 0.3s, color 0.3s; /* transition-colors duration-300 */
-    text-decoration: none; /* Aseguramos que no haya subrayado */
-    display: inline-block; /* Para que el padding y otras propiedades funcionen bien */
+    color: #6B7280; 
+    padding: 0.5rem 0.75rem; 
+    border-radius: 0.375rem; 
+    font-size: 0.875rem; 
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s; 
+    text-decoration: none; 
+    display: inline-block;
 }
 
 /* Estilos para el enlace cuando el cursor está encima */
 .nav-link:hover {
-    background-color: #374151; /* hover:bg-gray-700 */
-    color: #FFFFFF; /* hover:text-white */
+    background-color: #374151; 
+    color: #FFFFFF; 
 }
 
-/* Estilos para el enlace activo (la clase que routerLinkActive aplica) */
+/* Estilos para el enlace activo  */
 .nav-link.active-link {
-    background-color: #2563EB; /* bg-blue-600 */
-    color: #FFFFFF; /* text-white */
+    background-color: #2563EB; 
+    color: #FFFFFF;
 }
 
-/* --- Para el menú móvil (si lo necesitas) --- */
+/* --- Para el menú móvil  --- */
 
 .nav-link-mobile {
-    display: block; /* Para que ocupe todo el ancho */
-    /* Aquí puedes añadir estilos similares a .nav-link si lo deseas */
+    display: block;
     color: #6B7280;
     padding: 0.5rem 0.75rem;
     border-radius: 0.375rem;
-    font-size: 1rem; /* Un poco más grande para móviles */
+    font-size: 1rem;
     font-weight: 500;
     transition: background-color 0.3s, color 0.3s;
     text-decoration: none;
@@ -45,4 +43,37 @@
 .nav-link-mobile.active-link {
     background-color: #2563EB;
     color: #FFFFFF;
+}
+
+/* Estilos para el menú móvil desplegable */
+.mobile-menu-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  background-color: white; 
+  border-top: 1px solid #e5e7eb;
+}
+
+.mobile-menu-panel.mobile-menu-open {
+  max-height: 500px;
+}
+
+/* Animaciones */
+@keyframes ping-once {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-ping-once {
+  animation: ping-once 0.5s cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.2s ease-out forwards;
 }

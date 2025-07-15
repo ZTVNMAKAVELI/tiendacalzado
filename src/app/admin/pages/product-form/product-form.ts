@@ -15,7 +15,7 @@ export class AdminProductFormComponent implements OnInit {
   isEditMode = false;
   categories = [{id: 1, nombre: 'Deportivo'}, {id: 2, nombre: 'Formal'}, {id: 3, nombre: 'Casual'}];
   
-  // Nuevas propiedades para la carga de imágenes
+  // propiedades para la carga de imagenes
   selectedFile: File | null = null;
   imagePreview: string | ArrayBuffer | null = null;
   isUploading = false;
@@ -32,7 +32,7 @@ export class AdminProductFormComponent implements OnInit {
       this.isEditMode = true;
       this.productService.getProductById(+id).subscribe(data => {
         this.product = data;
-        this.imagePreview = data.imagenUrl; // Muestra la imagen actual al editar
+        this.imagePreview = data.imagenUrl; // imagen actual
       });
     }
   }
@@ -41,7 +41,7 @@ export class AdminProductFormComponent implements OnInit {
     const target = event.target as HTMLInputElement;
     if (target.files && target.files.length > 0) {
       this.selectedFile = target.files[0];
-      // Generar previsualización
+      // previsualización
       const reader = new FileReader();
       reader.onload = () => this.imagePreview = reader.result;
       reader.readAsDataURL(this.selectedFile);
@@ -51,24 +51,23 @@ export class AdminProductFormComponent implements OnInit {
   async saveProduct(): Promise<void> {
     this.isUploading = true;
 
-    // 1. Si se seleccionó un nuevo archivo, súbelo primero.
     if (this.selectedFile) {
       try {
         const uploadResponse = await this.productService.uploadImage(this.selectedFile).toPromise();
         if (uploadResponse && uploadResponse.url) {
-          this.product.imagenUrl = uploadResponse.url; // Actualiza la URL de la imagen
+          this.product.imagenUrl = uploadResponse.url; // Actualiza url de la imagen
         } else {
           throw new Error('La respuesta de la carga de imagen es inválida');
         }
       } catch (error) {
         console.error('Error al subir la imagen', error);
         this.isUploading = false;
-        // Aquí podrías mostrar un error al usuario
+
         return;
       }
     }
 
-    // 2. Guarda el producto (nuevo o actualizado) con la URL de la imagen correcta.
+    // Guarda el producto (nuevo o actualizado) con la URL de la imagen
     const saveObservable = this.isEditMode 
       ? this.productService.updateProduct(this.product.id, this.product)
       : this.productService.createProduct(this.product);

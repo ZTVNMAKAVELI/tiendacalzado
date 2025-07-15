@@ -17,7 +17,7 @@ export class CheckoutComponent implements OnInit {
   cartItems$: Observable<CartItem[]>;
   cartTotal$: Observable<number>;
   
-  // Estados para manejar el proceso de creación del pedido
+  // Estados creación del pedido
   isProcessing = false;
   orderSuccess = false;
   orderError: string | null = null;
@@ -34,7 +34,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Guardamos el estado actual del carrito para poder enviarlo
+    // Guardamos el estado carrito
     this.cartItems$.subscribe(items => {
       this.currentCartItems = items;
     });

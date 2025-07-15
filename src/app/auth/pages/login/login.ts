@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -10,9 +10,9 @@ import { StorageService } from '../../../core/services/storage.service';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './login.html',
-  styleUrl: './login.scss'
+  styleUrls: ['./login.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   form: any = {
     email: '',
     password: ''
@@ -21,6 +21,7 @@ export class LoginComponent {
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
+  isLoading = false;
 
   constructor(private authService: AuthService, private storageService: StorageService, private router: Router) { }
 
@@ -28,22 +29,28 @@ export class LoginComponent {
     if (this.storageService.isLoggedIn()) {
       this.isLoggedIn = true;
       this.roles = this.storageService.getUser().roles;
+      
+      this.router.navigate(['/catalogo']);
     }
   }
 
   onSubmit(): void {
+    this.isLoading = true; 
+    this.isLoginFailed = false;
+
     this.authService.login(this.form).subscribe({
       next: data => {
         this.storageService.saveUser(data);
-        this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.storageService.getUser().roles;
+        this.isLoading = false; 
         this.router.navigate(['/catalogo']).then(() => window.location.reload());
       },
       error: err => {
-        // CORRECCIÓN: Manejo de error más robusto.
-        this.errorMessage = err.error?.message || 'Credenciales incorrectas o error del servidor.';
+        console.error('Login error:', err);
+        this.errorMessage = err.error?.message || 'Credenciales incorrectas o error del servidor. Por favor, inténtalo de nuevo.';
         this.isLoginFailed = true;
+        this.isLoading = false; 
       }
     });
   }

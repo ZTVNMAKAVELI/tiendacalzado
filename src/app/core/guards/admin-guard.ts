@@ -14,7 +14,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
     }
   }
 
-  // Si no es admin, redirige al catálogo y bloquea el acceso.
+  // Si no es admin, redirige al catálogo.
   router.navigate(['/catalogo']);
   return false;
 };

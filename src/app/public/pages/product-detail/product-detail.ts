@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProductService, Producto } from '../../../core/services/product.service';
-import { CartService } from '../../../core/services/cart.service'; 
+import { CartService } from '../../../core/services/cart.service';
 import { CommonModule } from '@angular/common';
 import { LoaderComponent } from '../../../shared/components/loader/loader';
 import { FormsModule } from '@angular/forms';
@@ -27,11 +27,10 @@ export class ProductDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     this.route.paramMap.subscribe(params => {
       this.quantity = 1; 
-      this.addedToCart = false; 
-      const productId = params.get('id');   
+      this.addedToCart = false;
+      const productId = params.get('id');
       if (productId) {
         this.fetchProductData(+productId);
       }
@@ -46,17 +45,21 @@ export class ProductDetailComponent implements OnInit {
     this.productService.getProductById(id).subscribe({
       next: (data) => {
         this.product = data;
+
+        if (this.quantity > this.product.stock) {
+          this.quantity = this.product.stock > 0 ? 1 : 0; 
+        }
         this.isLoading = false;
       },
       error: (err) => {
         console.error('Error al cargar el producto:', err);
-        this.error = 'Producto no encontrado o error en el servidor.';
+        this.error = 'Producto no encontrado o error en el servidor. Por favor, verifica la URL o vuelve al catálogo.';
         this.isLoading = false;
       }
     });
   }
 
-    //Métodos para incrementar y decrementar la cantidad
+
   incrementQuantity(): void {
     if (this.product && this.quantity < this.product.stock) {
       this.quantity++;
@@ -69,13 +72,28 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  onAddToCart(): void {
+  validateQuantity(): void {
     if (this.product) {
+      if (this.quantity < 1 || isNaN(this.quantity)) {
+        this.quantity = 1;
+      } else if (this.quantity > this.product.stock) {
+        this.quantity = this.product.stock;
+      }
+    }
+  }
+
+
+  onAddToCart(): void {
+    if (this.product && this.product.stock > 0) {
       this.cartService.addToCart(this.product, this.quantity);
       this.addedToCart = true;
+
       setTimeout(() => {
         this.addedToCart = false;
       }, 2000);
+      
+    } else {
+      console.warn('No se pudo agregar al carrito.');
     }
   }
 }

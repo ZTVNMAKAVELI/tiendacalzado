@@ -1,37 +1,60 @@
-<main>
-    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Nuestro Catálogo</h2>
-            <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-500">Calzado con estilo para toda la familia.</p>
-        </div>
-        
-        <!-- Estado de Carga -->
-        <div *ngIf="isLoading">
-            <app-loader></app-loader>
-        </div>
+<main class="bg-gray-50 min-h-screen py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <!-- Estado de Error -->
-        <div *ngIf="error" class="text-center py-16 bg-red-50 text-red-700 p-4 rounded-lg">
-            <p class="font-bold">¡Ocurrió un error!</p>
-            <p>{{ error }}</p>
-        </div>
-
-        <!-- Contenido Principal -->
-        <div *ngIf="!isLoading && !error" id="product-grid" class="grid grid-cols-1 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6">
-            <a *ngFor="let product of products" [routerLink]="['/producto', product.id]" class="group relative block bg-white border rounded-lg shadow-sm overflow-hidden product-card transition-all duration-300 no-underline">
-                <div class="w-full h-56 bg-gray-200 overflow-hidden">
-                    <img [src]="product.imagenUrl" [alt]="product.nombre" class="w-full h-full object-center object-cover group-hover:opacity-75 transition-opacity duration-300">
-                </div>
-                <div class="p-4">
-                    <h3 class="text-sm text-gray-500">{{ product.categoria.nombre }}</h3>
-                    <p class="text-base font-semibold text-gray-900 mt-1">{{ product.nombre }}</p>
-                    <p class="text-lg font-bold text-blue-600 mt-2">{{ product.precio | currency:'S/ ' }}</p>
-                    <button class="mt-4 w-full bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition-colors duration-300 flex items-center justify-center space-x-2">
-                        <i class="ph ph-shopping-cart-simple text-xl"></i>
-                        <span>Agregar al Carrito</span>
-                    </button>
-                </div>
-            </a>
-        </div>
+    <!-- Encabezado del Catálogo -->
+    <div class="text-center mb-16">
+      <h2 class="text-5xl font-extrabold tracking-tight text-gray-900 drop-shadow-sm animate-fade-in-down">Explora Nuestro Catálogo</h2>
+      <p class="mt-4 max-w-3xl mx-auto text-xl text-gray-600 animate-fade-in-up">Descubre el calzado perfecto para cada paso de tu familia, con estilo y comodidad garantizados.</p>
     </div>
+
+    <!-- Estado de Carga -->
+    <div *ngIf="isLoading" class="flex justify-center items-center py-20">
+      <app-loader></app-loader>
+      <p class="ml-4 text-lg text-gray-600">Cargando productos...</p>
+    </div>
+
+    <!-- Estado de Error -->
+    <div *ngIf="error" class="text-center py-20 bg-red-100 text-red-800 p-8 rounded-xl shadow-md border border-red-200 animate-fade-in">
+      <i class="ph ph-warning-circle text-6xl mb-4"></i>
+      <p class="font-bold text-2xl">¡Ocurrió un error al cargar los productos!</p>
+      <p class="mt-2 text-lg">{{ error }}</p>
+      <button (click)="loadProducts()" class="mt-6 inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-105">
+        <i class="ph ph-arrow-clockwise text-xl mr-2"></i> Reintentar Carga
+      </button>
+    </div>
+
+    <!-- Contenido Principal: Grid de Productos -->
+    <div *ngIf="!isLoading && !error" id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
+      <a *ngFor="let product of products" [routerLink]="['/producto', product.id]" class="group relative block bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden product-card transition-all duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-2xl no-underline animate-fade-in-up-staggered">
+        <div class="w-full h-64 bg-gray-100 overflow-hidden rounded-t-xl">
+          <img [src]="product.imagenUrl" [alt]="product.nombre" class="w-full h-full object-center object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out">
+        </div>
+        <div class="p-5 flex flex-col justify-between h-auto">
+          <div>
+            <h3 class="text-sm font-semibold text-gray-500 mb-1">{{ product.categoria.nombre }}</h3>
+            <p class="text-xl font-bold text-gray-900 leading-tight">{{ product.nombre }}</p>
+          </div>
+          <div class="mt-4 flex items-baseline justify-between">
+            <p class="text-2xl font-extrabold text-blue-600">{{ product.precio | currency:'S/ ' }}</p>
+            
+            <button (click)="$event.preventDefault(); onAddToCart(product)"
+                    class="ml-auto p-3 rounded-full bg-blue-600 text-white shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform group-hover:scale-110 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"
+                    [disabled]="product.stock === 0">
+              <i class="ph ph-plus text-xl"></i>
+              <span class="sr-only">Agregar {{ product.nombre }} al carrito</span>
+            </button>
+          </div>
+          <p *ngIf="product.stock === 0" class="mt-2 text-sm font-medium text-red-600">Agotado</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- Mensaje si no hay productos -->
+    <div *ngIf="!isLoading && !error && products.length === 0" class="text-center py-20 bg-white p-8 rounded-xl shadow-md border border-gray-200 animate-fade-in">
+      <i class="ph ph-package text-6xl text-gray-300 mb-4"></i>
+      <p class="font-bold text-2xl text-gray-800">¡No se encontraron productos!</p>
+      <p class="mt-2 text-lg text-gray-600">Parece que no hay productos disponibles en este momento. Vuelve pronto.</p>
+    </div>
+
+  </div>
 </main>

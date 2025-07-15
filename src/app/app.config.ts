@@ -8,13 +8,11 @@ import { HttpRequestInterceptor } from './core/interceptors/http-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    // Provee el enrutador de Angular con transiciones suaves.
+    // enrutador de Angular
     provideRouter(routes, withViewTransitions()),
 
-    // Provee el cliente HTTP para hacer llamadas a tu API de Java.
+    // cliente HTTP para hacer llamadas API
     provideHttpClient(withFetch(), withInterceptors([HttpRequestInterceptor])),
-
-    // Provee la hidratación del cliente (para Server-Side Rendering).
     provideClientHydration()
   ]
 };
