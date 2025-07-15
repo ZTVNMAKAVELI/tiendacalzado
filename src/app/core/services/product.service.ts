@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment.prod';
 
 export interface Producto {
   id: number;
@@ -21,8 +22,10 @@ export interface Producto {
 export class ProductService {
 
   // URL base de API.
-  private apiUrl = 'http://localhost:8080/api/productos';
-  private fileApiUrl = 'http://localhost:8080/api/files';
+  // private apiUrl = 'http://localhost:8080/api/productos';
+  // private fileApiUrl = 'http://localhost:8080/api/files';
+private apiUrl = `${environment.apiBaseUrl}/productos`;
+private fileApiUrl = `${environment.apiBaseUrl}/files`;
 
   constructor(private http: HttpClient) { }
 

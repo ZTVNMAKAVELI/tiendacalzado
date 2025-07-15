@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CartItem } from './cart.service';
+import { environment } from '../../../environments/environment.prod';
 
 export interface Order {
     id: number;
@@ -15,8 +16,8 @@ export interface Order {
     }[];
 }
 
-const ORDER_API = 'http://localhost:8080/api/orders';
-
+//const ORDER_API = 'http://localhost:8080/api/orders';
+const ORDER_API = `${environment.apiBaseUrl}/orders`;
 @Injectable({
   providedIn: 'root'
 })
