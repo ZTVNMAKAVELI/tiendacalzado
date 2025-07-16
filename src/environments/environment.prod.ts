@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://tiendacalzado-backend.onrender.com/api'
+  apiBaseUrl: 'https://bananitos-backend-1094826485462.us-central1.run.app/api'
 };
