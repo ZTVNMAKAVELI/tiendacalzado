@@ -1,0 +1,13 @@
+steps:
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['ci']
+
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'build']
+
+  - name: 'gcr.io/firebase/firebase'
+    args:
+      - 'deploy'
+      - '--only=hosting'
+      - '--project=$PROJECT_ID'
+      - '--non-interactive'
