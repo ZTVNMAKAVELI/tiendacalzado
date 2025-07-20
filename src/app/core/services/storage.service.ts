@@ -30,13 +30,17 @@ export class StorageService {
   }
 
   public getUser(): any {
-    if (this.isBrowser) {
-      const user = window.localStorage.getItem(USER_KEY);
-      if (user) {
-        return JSON.parse(user);
+   if (this.isBrowser) {
+    const user = window.localStorage.getItem(USER_KEY);
+    if (user) {
+      const parsed = JSON.parse(user);
+
+      if (parsed && parsed.token) {
+        return parsed;
       }
     }
-    return {};
+  }
+  return null;
   }
 
   public isLoggedIn(): boolean {

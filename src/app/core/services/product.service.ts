@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.prod';
+import { StorageService } from './storage.service';
 
 export interface Producto {
   id: number;
@@ -27,7 +28,7 @@ export class ProductService {
 private apiUrl = `${environment.apiBaseUrl}/productos`;
 private fileApiUrl = `${environment.apiBaseUrl}/files`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private storageService: StorageService) { }
 
   //Método petición GET a la API de Productos.
   getProducts(): Observable<Producto[]> {
@@ -54,6 +55,11 @@ private fileApiUrl = `${environment.apiBaseUrl}/files`;
   uploadImage(file: File): Observable<{ url: string }> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.post<{ url: string }>(`${this.fileApiUrl}/upload`, formData);
+
+    const user = this.storageService.getUser();
+  const token = user?.token || '';
+    return this.http.post<{ url: string }>(`${this.fileApiUrl}/upload`, formData, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {}
+  });
   }
 }
