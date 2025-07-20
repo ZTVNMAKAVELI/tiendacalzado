@@ -1,9 +1,9 @@
 steps:
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['ci']
+  - name: 'node:20'
+    args: ['npm', 'ci']
 
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['run', 'build']
+  - name: 'node:20'
+    args: ['npm', 'run', 'build']
 
   - name: 'gcr.io/firebase/firebase'
     args:
