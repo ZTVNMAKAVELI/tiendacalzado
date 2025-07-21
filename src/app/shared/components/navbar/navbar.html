@@ -95,11 +95,11 @@
   <div [class.mobile-menu-open]="isMobileMenuOpen" class="md:hidden mobile-menu-panel">
     <!-- Enlaces de navegación -->
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-      <a routerLink="/catalogo" routerLinkActive="active-link-mobile" [routerLinkActiveOptions]="{exact: true}" (click)="toggleMobileMenu()" class="nav-link-mobile">Catálogo</a>
-      <a routerLink="/nosotros" routerLinkActive="active-link-mobile" (click)="toggleMobileMenu()" class="nav-link-mobile">Nosotros</a>
-      <a routerLink="/contacto" routerLinkActive="active-link-mobile" (click)="toggleMobileMenu()" class="nav-link-mobile">Contacto</a>
-      <a *ngIf="isAdmin" routerLink="/admin/productos" routerLinkActive="active-link-mobile" (click)="toggleMobileMenu()" class="nav-link-mobile">Panel de Admin</a>
-      <a *ngIf="isLoggedIn" routerLink="/mis-pedidos" routerLinkActive="active-link-mobile" (click)="toggleMobileMenu()" class="nav-link-mobile">Mis Pedidos</a>
+      <a routerLink="/catalogo" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" (click)="toggleMobileMenu()" class="nav-link-mobile">Catálogo</a>
+      <a routerLink="/nosotros" routerLinkActive="active-link" (click)="toggleMobileMenu()" class="nav-link-mobile">Nosotros</a>
+      <a routerLink="/contacto" routerLinkActive="active-link" (click)="toggleMobileMenu()" class="nav-link-mobile">Contacto</a>
+      <a *ngIf="isAdmin" routerLink="/admin/productos" routerLinkActive="active-link" (click)="toggleMobileMenu()" class="nav-link-mobile">Panel de Admin</a>
+      <a *ngIf="isLoggedIn" routerLink="/mis-pedidos" routerLinkActive="active-link" (click)="toggleMobileMenu()" class="nav-link-mobile">Mis Pedidos</a>
     </div>
 
     <!-- Separador y sección de autenticación/perfil -->
